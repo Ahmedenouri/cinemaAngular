@@ -1,0 +1,17 @@
+.collapse{
+  justify-content: center;
+}
+nav div a span{
+  color: #545454;
+  padding: 1px 10px;
+  border-radius: 5px;
+}
+nav .collapse ul li a{
+  color: #212121;
+}
+nav .collapse ul li a:hover{
+  color: #545454;
+}
+nav .collapse ul li a:focus{
+  color:#404040;
+}
