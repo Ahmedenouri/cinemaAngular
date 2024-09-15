@@ -13,4 +13,11 @@ export class CinemaService{
   public getVilles(){
     return this.http.get(`${this.host}/villes`);
   }
+
+  getCinema(ville: any) {
+    return this.http.get(ville._links.cinemas.href);
+  }
+  getSalle(cinema: any) {
+    return this.http.get(cinema._links.salles.href);
+  }
 }

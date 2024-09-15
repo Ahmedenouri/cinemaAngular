@@ -1,1 +1,34 @@
-<p>accueil works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-2" >
+      <ul *ngIf="villes" class="list-group">
+        <li *ngFor="let ville of villes._embedded.villes" (click)="onGetCinema(ville)">
+          <a [ngClass]="ville==currentVille?'active':''" class="list-group-item clickable" >{{ville.nameVille}}</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-10">
+      <div class="panel panel-primary">
+        <div class="panel-heading">List des cinéma</div>
+        <div class="panel-body">
+          <ul *ngIf="cinemas" class="nav nav-pills clickable">
+            <li *ngFor="let cinema of cinemas._embedded.cinemas">
+              <a (click)="onGetSalle(cinema)">{{cinema.nameCinema}}</a>
+            </li>
+          </ul>
+          <div class="row" *ngIf="salles">
+              <div *ngFor="let salle of salles._embedded.salles">
+                <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">{{salle.nameSalle}}</div>
+                  <div class="panel-body"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
