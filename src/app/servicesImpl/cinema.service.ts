@@ -20,4 +20,19 @@ export class CinemaService{
   getSalle(cinema: any) {
     return this.http.get(cinema._links.salles.href);
   }
+
+  getProjection(s: any) {
+    let url=s._links.projectionFilms.href.replace("{?projection}","");
+    return this.http.get(url+"?projection=p1");
+    //return this.http.get(s._links.projectionFilms.href);
+  }
+
+  getTicketsPlaces(p: any) {
+    let url=p._links.tickets.href.replace("{?projection}","");
+    return this.http.get(url+"?projection=ticketProj");
+  }
+
+  payerTickets(value: any) {
+    return this.http.post(this.host+"/payerTickets",value);
+  }
 }

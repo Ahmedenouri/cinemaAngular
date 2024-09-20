@@ -13,7 +13,7 @@
         <div class="panel-heading">List des cinéma</div>
         <div class="panel-body">
           <ul *ngIf="cinemas" class="nav nav-pills clickable">
-            <li *ngFor="let cinema of cinemas._embedded.cinemas">
+            <li [ngClass]="cinema==currentCinema?'active':''" *ngFor="let cinema of cinemas._embedded.cinemas">
               <a (click)="onGetSalle(cinema)">{{cinema.nameCinema}}</a>
             </li>
           </ul>
@@ -22,7 +22,46 @@
                 <div class="col-md-6">
                 <div class="panel panel-default">
                   <div class="panel-heading">{{salle.nameSalle}}</div>
-                  <div class="panel-body"></div>
+
+                  <div class="panel-body" *ngIf="salle.projections">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <img width="200" src="{{cinemaService.host+'/imageFilms/'+salle.projections._embedded.projectionFilms[0].film.idFilm}}" alt="photo"/>
+                      </div>
+                      <div class="col-md-6">
+                        <ul class="list-group">
+                          <li class="list-group-item">Seance :</li>
+                          <li (click)="onGetTicketsPlaces(p)" [ngClass]="p==currentProjection?'active':''" *ngFor="let p of salle.projections._embedded.projectionFilms" class="list-group-item clickable">
+                            <span>{{p.seance.timeDebutSeance}} (Prix : {{p.priceProjectionFilm|number:'0.00'}} DH)</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div *ngIf="currentProjection">
+
+                        <div *ngIf="salle.idSalle==currentProjection.salle.idSalle">
+                          <div class="row" *ngIf="currentProjection.tickets">
+                            <button class="{{getTicketClass(t)}}" (click)="onSelectTicket(t)" [disabled]="t.reservationTicket" *ngFor="let t of currentProjection.tickets._embedded.tickets">
+                              {{t.place.numberPlace}}
+                            </button>
+                          </div>
+                          <div>
+                            <form #f="ngForm" (ngSubmit)="onPayTickets(f.value)">
+                              <div class="form-group">
+                                <label class="control-label">Nom Client</label>
+                                <input class="form-control" type="text" name="nomClient" ngModel>
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label">Code Payement :</label>
+                                <input class="form-control" type="text" name="codePayement" ngModel>
+                              </div>
+                              <button type="submit" class="btn btn-success">Payer</button>
+                            </form>
+                          </div>
+                        </div>
+
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
